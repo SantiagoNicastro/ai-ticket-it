@@ -1,0 +1,15 @@
+# Dependencias
+node_modules/
+
+# Secretos
+.env
+.env.*
+
+# Expo / React Native
+.expo/
+dist/
+web-build/
+
+# Tests y logs
+*.log
+
