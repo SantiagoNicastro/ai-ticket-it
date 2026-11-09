@@ -68,11 +68,31 @@
 - **Resultado:** `AGENTS.md` son instrucciones hacia la IA (futuro, corto, prescriptivo); la bitácora es un registro hacia humanos (pasado, crece con cada sesión). Se alimentan entre sí: un error recurrente de la IA se convierte en una regla de `AGENTS.md`.
 - **Qué decidí:** Mantener los dos archivos separados con esos roles.
 
+##  - Decisiones técnicas previas al plan
+
+- **Prompt:** Le pedí armar el `plan.md` con capas y tareas. Antes de escribirlo, la IA me hizo 7 preguntas técnicas, cada una con un valor por defecto.
+- **Resultado:** Defaults propuestos: carpetas por capa, endpoints simulados para pago y reembolso, fecha inyectable en el dominio, ids con `crypto.randomUUID()`, Jest en dominio y services más 1 o 2 tests de controller, y un seed en memoria para la demo.
+- **Qué acepté:** Todos los defaults.
+- **Qué corregí yo:** Los endpoints propuestos eran `POST /compras/:id/pago` y `POST /compras/:id/reembolso`, y los rechacé porque ponían acciones (verbos) en la URL, lo cual es mala práctica REST. La clase lo dice en "Procesos": una acción que no es un ABM se modela como un recurso.
+- **Cómo quedó:** `POST /compras/:id/pagos` y `POST /compras/:id/reembolsos` (recursos hijos) para lo que dispara el Sistema, y `PATCH /compras/:id/estado` para cancelar y utilizar.
+
+##  - Generación de plan.md
+
+- **Prompt:** Con los defaults ya aprobados, le pedí el `plan.md` con la arquitectura, la API y las tareas T1 a T6, cada una con su forma de verificación, más el esquema de tareas del mobile.
+  
+- **Resultado:** Un plan con estructura de carpetas, decisiones técnicas, lista de endpoints, tareas del backend con verificación, un prompt base RCT dentro de SDD y un proceso de trabajo por tarea
+  
+- **Observaciones de la IA que anoto:**
+  - El plan asume `supertest` para el test de controller, una dependencia nueva. [completar: la dejé o la reemplacé, y por qué]
+  - Que el front llame a `POST /compras/:id/pagos` es una simulación: en un sistema real el pago lo dispararía la pasarela, no el cliente. Lo voy a aclarar en el video.
+
+- **Qué decidí:** Aceptar el plan como base y ajustarlo a medida que implemente cada tarea.
+
+
+##  - Cierre de la fase de especificación
+
+- **Estado:** `spec.md`, `plan.md` y `AGENTS.md` terminados y commiteados.
+- **Próximo paso:** Implementar T1 (errores y middleware) con el prompt base del plan, escribiendo los tests primero.
+
 ---
 
-## Pendiente de reflexión para la conclusión del video
-
-- ¿La IA fue clara? ¿Tuvo errores?: [completar a medida que avance el proyecto]
-- ¿Qué rechacé de lo que generó y con qué criterio?: [completar]
-- ¿Entendí lo que hice o copié y pegué?: [completar]
-- Comparación entre la respuesta de la IA y lo que pasó en la práctica: [completar]
